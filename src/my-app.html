@@ -126,17 +126,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           page: {
             type: String,
             reflectToAttribute: true,
-            observer: '_pageChanged',
+            observer: '_pageChanged'
           },
           rootPattern: String,
           routeData: Object,
-          subroute: String,
+          subroute: String
         };
       }
 
       static get observers() {
         return [
-          '_routePageChanged(routeData.page)',
+          '_routePageChanged(routeData.page)'
         ];
       }
 
@@ -167,7 +167,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl(page + '-view' + '.html');
+          var resolvedPageUrl;
+          if (page == 'view404'){
+              resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+          }else{
+              resolvedPageUrl = this.resolveUrl(page + '-view' + '.html');
+          }
+
         Polymer.importHref(
             resolvedPageUrl,
             null,
