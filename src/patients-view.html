@@ -30,6 +30,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+      var patientstRef = firebase.database().ref('patients');
+      patientstRef.on('value', function(snapshot) {
+          console.log(snapshot.val());
+      });
     class PatientsView extends Polymer.Element {
       static get is() { return 'patients-view'; }
     }
