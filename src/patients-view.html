@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="mocks/patient.js">
+<link rel="import" href="mocks/patient.js">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="patients-view">
@@ -19,25 +21,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+      iron-list {
+        height: 100vh; /* don't use % values unless the parent element is sized. */
+      }
     </style>
+    <template is="dom-repeat" items="{{patients}}">
+      <div class="card">
 
-    <div class="card">
-      <div class="circle">1</div>
-      <h1>Patients View</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-    </div>
+        <div id="info-patient">
+          <div>Id: <span>{{item.id}}</span></div>
+          <div>First name: <span>{{item.firstName}}</span></div>
+          <div>Last name: <span>{{item.lastName}}</span></div>
+          <div>Address: <span></span>{{item.address}}</div>
+          <div>phone: <span></span>{{item.phone}}</div>
+          <div>occupation: <span>{{item.occupation}}</span></div>
+          <div>Birthday: <span>{{item.birthdate}}</span></div>
+          <div>Age: <span>{{item.age}}</span></div>
+          <div>Genre: <span>{{item.genre }}</span></div>
+        </div>
+      </div>
+
+    </template>
+
   </template>
 
   <script>
+
+      Polymer({
+          is: 'patients-view',
+
+          ready: function() {
+              console.log(patientsArray.length);
+              this.patients = patientsArray;
+          }
+
+      });
+
+/*
+
       var patientstRef = firebase.database().ref('patients');
+      var listPatient;
+      var patientsOBJ;
+      var  patients=[];
       patientstRef.on('value', function(snapshot) {
-          console.log(snapshot.val());
+          listPatient = snapshot.val();
+          for( keyPatient in listPatient){
+              var patient = new Object();
+              var item = listPatient[keyPatient];
+              patient.id = item.id;
+              patient.firstName = item.firstName;
+              patient.lastName = item.lastName;
+              patient.address = item.address;
+              patient.phone = item.phone;
+              patient.occupation = item.occupation;
+              patient.birthdate = item.birthdate;
+              patient.age  = item.age;
+              patient.genre  = item.genre ;
+            patients.push(patient);
+          }
       });
     class PatientsView extends Polymer.Element {
       static get is() { return 'patients-view'; }
     }
 
     window.customElements.define(PatientsView.is, PatientsView);
+    */
   </script>
 </dom-module>

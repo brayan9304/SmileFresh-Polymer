@@ -128,6 +128,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       };
       firebase.initializeApp(config);
       database = firebase.database();
+      var patientstRef = firebase.database().ref('patients');
+      var listPatient;
+      var patientsArray=[];
+      patientstRef.on('value', function(snapshot) {
+          listPatient = snapshot.val();
+          for( keyPatient in listPatient){
+              var patient = new Object();
+              var item = listPatient[keyPatient];
+              patient.id = item.id;
+              patient.firstName = item.firstName;
+              patient.lastName = item.lastName;
+              patient.address = item.address;
+              patient.phone = item.phone;
+              patient.occupation = item.occupation;
+              patient.birthdate = item.birthdate;
+              patient.age  = item.age;
+              patient.genre  = item.genre ;
+              patientsArray.push(patient);
+          }
+      });
+
   </script>
 
   <script>
