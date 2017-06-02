@@ -25,8 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <template is="dom-repeat" items="{{events}}">
             <template is="dom-if" if="{{!item.sold}}">
                 <div class="card">
-
-                    <div id="info-payment">
+                    <div >
                         <div>Date: <span>{{item.date}}</span></div>
                         <div>Patient: <span>{{item.patient}}</span></div>
                         <div>Doctor: <span>{{item.doctor}}</span></div>
@@ -45,7 +44,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
         Polymer({
             is: 'payment-view',
-
             ready: function() {
                 this.events = eventsPaymentListArray;
             },
@@ -53,7 +51,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 console.log(e.model.item);
                 var databaseRef = database.ref("events/" + e.model.item.key + "/sold");
                 databaseRef.set(true);
-                location.reload();
+                alert('Pay completed');
             }
         });
     </script>
