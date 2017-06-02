@@ -32,7 +32,9 @@
     "iron-checked-element-behavior": "PolymerElements/iron-checked-element-behavior#^2.0.0",
     "paper-dialog-lite": "ryanburns23/paper-dialog-lite#^2.0.1",
     "neon-animation": "PolymerElements/neon-animation#^2.0.0",
-    "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#^2.0.0"
+    "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#^2.0.0",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.0",
+    "paper-multi-select": "rayabhagis/paper-multi-select#^0.1.0"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.3"
