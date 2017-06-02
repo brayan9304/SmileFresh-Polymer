@@ -105,30 +105,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer({
             is: 'addpatient-view',
             properties: {
-                id: {
-                    type: Number
-                },
-                firstName: {
-                    type: String
-                },
-                lastName: {
-                    type: String
-                },
-                address: {
-                    type: String
-                },
-                phone: {
-                    type: Number
-                },
-                occupation: {
-                    type: String
-                },
-                birthdate:{
-                    type: Date
-                },
-                genre:{
-                    type: Number
-                }
+                id: {type: Number},
+                firstName: {type: String},
+                lastName: {type: String},
+                address: {type: String},
+                phone: {type: Number},
+                occupation: {type: String},
+                birthdate:{type: Date},
+                genre:{type: Number}
             },
             submit: function () {
                 var databaseRef = database.ref('patients');
