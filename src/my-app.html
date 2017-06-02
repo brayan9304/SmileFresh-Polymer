@@ -128,9 +128,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       };
       firebase.initializeApp(config);
       database = firebase.database();
+
       var patientstRef = firebase.database().ref('patients');
       var listPatient;
       var patientsArray=[];
+
+      var doctorsRef = firebase.database().ref('doctors');
+      var listDoctor;
+      var doctorsArray = [];
+
+      var clinicalHistoriesRef = firebase.database().ref('clinical-histories');
+      var listClinicalHistories;
+      var clinicalHistoriesArray = [];
+
       patientstRef.on('value', function(snapshot) {
           listPatient = snapshot.val();
           for( keyPatient in listPatient){
@@ -146,6 +156,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               patient.age  = item.age;
               patient.genre  = item.genre ;
               patientsArray.push(patient);
+          }
+      });
+
+      doctorsRef.on('value', function(snapshot) {
+          listDoctor = snapshot.val();
+          for( keyDoctor in listDoctor){
+              var doctor = new Object();
+              var item = listDoctor[keyDoctor];
+              doctor.id = item.id;
+              doctor.firstName = item.firstName;
+              doctor.lastName = item.lastName;
+              doctor.phone = item.phone;
+              doctor.genre  = item.genre ;
+              doctorsArray.push(doctor);
+          }
+      });
+
+      clinicalHistoriesRef.on('value', function(snapshot) {
+          listClinicalHistories = snapshot.val();
+          for( keyDoctor in listClinicalHistories){
+              var history = new Object();
+              var item = listClinicalHistories[keyDoctor];
+              history.description = item.description;
+              history.elaboratioDate = item.elaboratioDate;
+              history.idDoctor  = item.idDoctor ;
+              history.idPatient = item.idPatient;
+              clinicalHistoriesArray.push(history);
           }
       });
 
