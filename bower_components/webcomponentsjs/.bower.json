@@ -35,7 +35,13 @@
     "tag": "v1.0.1",
     "commit": "1c3a4564796c66b2427dcd15618867b5a44edfac"
   },
+<<<<<<< HEAD
   "_source": "https://github.com/Polymer/webcomponentsjs.git",
   "_target": "^1.0.1",
   "_originalSource": "webcomponentsjs"
+=======
+  "_source": "https://github.com/webcomponents/webcomponentsjs.git",
+  "_target": "^1.0.1",
+  "_originalSource": "webcomponents/webcomponentsjs"
+>>>>>>> feature/appoinment-form
 }
