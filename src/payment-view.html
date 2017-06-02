@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-button/test/paper-button.html">
 
 <dom-module id="payment-view">
     <template>
@@ -21,19 +22,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         </style>
 
-        <div class="card">
-            <div class="circle">4</div>
-            <h1>Payment View</h1>
-            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-        </div>
+        <template is="dom-repeat" items="{{events}}">
+            <template is="dom-if" if="{{!item.sold}}">
+                <div class="card">
+
+                    <div id="info-payment">
+                        <div>Date: <span>{{item.date}}</span></div>
+                        <div>Patient: <span>{{item.patient}}</span></div>
+                        <div>Doctor: <span>{{item.doctor}}</span></div>
+                        <div>Start Time: <span></span>{{item.startTime}}</div>
+                        <div>End Time: <span></span>{{item.endTime}}</div>
+                        <div>Price: <span>{{item.price}}</span></div>
+                        <div>Sold: <span>{{item.sold}}</span></div>
+                        <paper-button id="payment" type="submit" raised on-tap="pay(item)">Pay</paper-button>
+                    </div>
+                </div>
+            </template>
+        </template>
+
     </template>
 
     <script>
-        class PaymentView extends Polymer.Element {
-            static get is() { return 'payment-view'; }
-        }
+        Polymer({
+            is: 'payment-view',
 
-        window.customElements.define(PaymentView.is, PaymentView);
+            properties: {
+                item: Object
+            },
+
+            listeners:{
+                payment: 
+            },
+
+            ready: function() {
+                this.events = eventsPaymentListArray;
+            },
+            pay : function (item) {
+                console.log(item);
+                var databaseRef = database.ref("events/" + item.key);
+                item.sold = true;
+                //databaseRef.set(item);
+
+            }
+        });
     </script>
 </dom-module>

@@ -146,6 +146,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var listClinicalHistories;
       var clinicalHistoriesArray = [];
 
+      var eventsListPaymentRef = firebase.database().ref('events');
+      var listEventsPayment;
+      var eventsPaymentListArray = [];
+
       patientstRef.on('value', function(snapshot) {
           listPatient = snapshot.val();
           for( keyPatient in listPatient){
@@ -191,6 +195,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
       });
 
+      eventsListPaymentRef.on('value', function(snapshot) {
+          listEventsPayment = snapshot.val();
+          for( keyEventsPayment in listEventsPayment){
+              var payment = new Object();
+              var item = listEventsPayment[keyEventsPayment];
+              payment.date = item.date;
+              payment.doctor = item.doctor;
+              payment.endTime  = item.endTime ;
+              payment.patient = item.patient;
+              payment.price = item.price;
+              payment.sold = item.sold;
+              payment.startTime = item.startTime;
+              eventsPaymentListArray.push(payment);
+          }
+      });
   </script>
 
   <script>
