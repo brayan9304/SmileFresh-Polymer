@@ -8,11 +8,20 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
+
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<script src='../bower_components/jquery/dist/jquery.min.js'></script>
+<script src='../bower_components/moment/min/moment.min.js'></script>
+<script src='../bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+
+<link rel="import" href="../bower_components/fullcalendar-calendar/fullcalendar-theme.html">
+<link rel="import" href="../bower_components/fullcalendar-calendar/fullcalendar-calendar-no-deps.html">
+<link rel="import" href="../bower_components/fullcalendar-calendar/behaviors/full-calendar-behavior.html">
 <link rel="import" href="shared-styles.html">
 
+
 <dom-module id="calendar-view">
-  <template>
+  <template is="dom-bind" id="app">
     <style include="shared-styles">
       :host {
         display: block;
@@ -20,20 +29,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
     </style>
+    <fullcalendar-calendar
+            on-event-click
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>Calendar View</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
-    </div>
+    ></fullcalendar-calendar>
   </template>
 
   <script>
-    class CalendarView extends Polymer.Element {
-      static get is() { return 'calendar-view'; }
-    }
+      var calendar = Polymer.dom(document).querySelector('fullcalendar-calendar');
+      console.log(calendar);
+    Polymer({
+        is:'calendar-view',
+        behaviors: [
+            FullCalendarBehavior
+        ],
+        properties:{
+            options:{
+                header: false,
+                events: [
+                    { title: 'Discover fullcalendar-calendar', start: moment() },
+                    { title: 'Install fullcalendar-calendar', start: moment().add(2, 'day') },
+                    { title: 'Play around with fullcalendar-calendar', start: moment().add(4, 'days'), end: moment().add(5, 'days') },
+                    { title: 'Star fullcalendar-calendar on Github', start: moment().add(7, 'days'), end: moment().add(7, 'days').add(25, 'minutes') }
+                ]
+            }
+        },
 
-    window.customElements.define(CalendarView.is, CalendarView);
+        event:function (e) {
+            alert(e.format());
+        },
+        select:function (start) {
+            alert(moment(start).format());
+        },
+        Click:function (event) {
+          alert(event.detail.date.format());
+        },
+        setTitle:function () {
+            alert('que panso');
+        }
+
+    })
   </script>
+
 </dom-module>

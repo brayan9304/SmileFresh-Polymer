@@ -1,0 +1,130 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
+<link rel="import" href="../bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="appointment-view">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+        <h1>New Appointment</h1>
+        <form id="basic" is="iron-form">
+            <div>
+                <paper-input required always-float-label label="Date of appointment" id="date"
+                             type="date" value="{{date}}"></paper-input>
+            </div>
+            <br>
+            <div>
+                <paper-input required always-float-label label="Start time" type="time" name="start_time"
+                             required
+                             id="start_time"></paper-input>
+            </div>
+            <br>
+            <div>
+                <paper-input required always-float-label label="End time" type="time" name="end_time"
+                             required
+                             id="end_time"></paper-input>
+            </div>
+            <br>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="Doctor" type="text" name="Doctor"
+                                 required
+                                 id="doctor"></paper-input>
+                </div>
+            </div>
+            <br>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="Patient" type="text" name="patient"
+                                 class="form-control" required
+                                 id="patient"></paper-input>
+                </div>
+
+            </div>
+            <br>
+            <div>
+                <paper-input required always-float-label label="Price" type="number" id="price"
+                             validate=""></paper-input>
+            </div>
+            <br>
+            <paper-button type="submit" raised class="indigo" on-tap="submit">Submit</paper-button>
+            <div class="output"></div>
+        </form>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'appointment-view',
+            properties: {
+                date: {
+                    type: Date
+                },
+                start: {
+                    type: String
+                },
+                end: {
+                    type: String
+                },
+                doctor: {
+                    type: String
+                },
+                patient: {
+                    type: String
+                },
+                price: {
+                    type: Number
+                }
+            },
+            submit: function () {
+                var databaseRef = database.ref('events');
+                if (this.$.date.value != null) {
+                    if (this.$.start_time.value != null) {
+                        if (this.$.end_time.value != null) {
+                            if (this.$.doctor.value != "") {
+                                if (this.$.patient.value != "") {
+                                    if (this.$.price.value != "") {
+                                        var eventOBJ=new Object();
+                                        eventOBJ.date = this.$.date.value;
+                                        eventOBJ.startTime = this.$.start_time.value;
+                                        eventOBJ.endTime = this.$.end_time.value;
+                                        eventOBJ.doctor = this.$.doctor.value;
+                                        eventOBJ.patient = this.$.patient.value;
+                                        eventOBJ.price = this.$.price.value;
+                                        eventOBJ.sold = false;
+                                        databaseRef.push().set(eventOBJ);
+                                    } else {alert('The price is necessary');}
+                                } else {alert("The patient's name is necessary ");}
+                            } else {alert("The doctor's name is necessary ");}
+                        }else {alert("The end time is necessary ");}
+                    }else{alert("The start time is necessary ");}
+                }else{alert("The date is necessary ");}
+            }
+        })
+    </script>
+</dom-module>
