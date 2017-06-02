@@ -19,9 +19,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="patients-view">
   <template>
-    <div>
-      <paper-button toggles raised id="button" on-click="showPatient" data-toggle="modal" data-target="#add_event_modal">ADD PATIENT</paper-button>
-    </div>
     <style include="shared-styles">
       :host {
         display: block;
@@ -56,20 +53,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </template>
   <script>
-
       Polymer({
           is: 'patients-view',
 
           ready: function() {
-              console.log(patientsArray.length);
               this.patients = patientsArray;
 
-          },
-
-          addPatient: function () {
-
           }
-
       });
   </script>
 </dom-module>

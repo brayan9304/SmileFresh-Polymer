@@ -1,0 +1,37 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="clinichistories-view">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+        <template is="dom-repeat" items="{{clinicHistories}}">
+            <div class="card">
+
+                <div id="info-clinic-histories">
+                    <div>Descrption: <span>{{item.description}}</span></div>
+                    <div>Elaboration Date: <span>{{item.elaboratioDate}}</span></div>
+                    <div>ID Doctor: <span>{{item.idDoctor}}</span></div>
+                    <div>ID Patient: <span></span>{{item.idPatient}}</div>
+                </div>
+            </div>
+
+        </template>
+    </template>
+
+
+    <script>
+        Polymer({
+            is: 'clinichistories-view',
+
+            ready: function() {
+                this.clinicHistories = clinicalHistoriesArray;
+            }
+        });
+    </script>
+</dom-module>
