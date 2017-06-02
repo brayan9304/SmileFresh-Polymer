@@ -1,0 +1,171 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
+<link rel="import" href="../bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="addpatient-view">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+        <h1>New Patient</h1>
+        <form id="add" is="iron-form" class="form-control">
+            <div>
+                <div>
+                    <paper-input required always-float-label label="ID" type="number" name="ID"
+                                 required
+                                 id="id"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="First Name" type="text" name="first_name"
+                                 required
+                                 id="firstName"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="Last Name" type="text" name="last_name"
+                                 required
+                                 id="lastName"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="Address" type="text" name="address"
+                                 required
+                                 id="address"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="Phone" type="number" name="phone"
+                                 required
+                                 id="phone"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="Occupation" type="text" name="occupation"
+                                 required
+                                 id="occupation"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-input required always-float-label label="BirthDate" type="date" name="birthdate"
+                                 required
+                                 id="birthdate"></paper-input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <paper-dropdown-menu label="Genre">
+                        <paper-listbox id="selectedGenre" slot="dropdown-content" selected="0">
+                            <paper-item>Male</paper-item>
+                            <paper-item>Female</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </div>
+            </div>
+
+            <paper-button type="submit" raised class="indigo" on-tap="submit">Submit</paper-button>
+            <div class="output"></div>
+        </form>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'addpatient-view',
+            properties: {
+                id: {
+                    type: Number
+                },
+                firstName: {
+                    type: String
+                },
+                lastName: {
+                    type: String
+                },
+                address: {
+                    type: String
+                },
+                phone: {
+                    type: Number
+                },
+                occupation: {
+                    type: String
+                },
+                birthdate:{
+                    type: Date
+                },
+                genre:{
+                    type: Number
+                }
+            },
+            submit: function () {
+                var databaseRef = database.ref('patients');
+                if (this.$.id.value != null) {
+                    if (this.$.firstName.value != "") {
+                        if (this.$.lastName.value != "") {
+                            if (this.$.address.value != "") {
+                                if (this.$.phone.value != 0) {
+                                    if (this.$.occupation.value != "") {
+                                        if(this.$.birthdate.value != null) {
+                                                var eventOBJ = new Object();
+                                                var date = new Date();
+                                                var currentDate = date.getDate();
+                                                eventOBJ.id = this.$.id.value;
+                                                eventOBJ.firstName = this.$.firstName.value;
+                                                eventOBJ.lastName = this.$.lastName.value;
+                                                eventOBJ.address = this.$.address.value;
+                                                eventOBJ.phone = this.$.phone.value;
+                                                eventOBJ.occupation = this.$.occupation.value;
+                                                eventOBJ.birthdate = this.$.birthdate.value;
+                                                eventOBJ.age = this.calcAge(eventOBJ.birthdate);
+                                                if(this.$.genre==0){eventOBJ.genre = "Male";}
+                                                else {eventOBJ.genre = "Female";}
+                                                databaseRef.push().set(eventOBJ);
+                                        }else{alert('Seleccione una fecha');}
+                                    } else {alert('The Occupation is necessary');}
+                                } else {alert("The phone's number is necessary ");}
+                            } else {alert("The address is necessary ");}
+                        }else {alert("The Last Name is necessary ");}
+                    }else{alert("The First Name is necessary ");}
+                }else{alert("The ID is necessary ");}
+            },
+
+            calcAge: function (birthdate) {
+                var date = new Date(birthdate);
+                return Math.floor((Date.now() - date) / 31536000000);
+            }
+        })
+    </script>
+</dom-module>
