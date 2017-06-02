@@ -200,6 +200,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           for( keyEventsPayment in listEventsPayment){
               var payment = new Object();
               var item = listEventsPayment[keyEventsPayment];
+              payment.key = keyEventsPayment;
               payment.date = item.date;
               payment.doctor = item.doctor;
               payment.endTime  = item.endTime ;

@@ -34,7 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <div>End Time: <span></span>{{item.endTime}}</div>
                         <div>Price: <span>{{item.price}}</span></div>
                         <div>Sold: <span>{{item.sold}}</span></div>
-                        <paper-button id="payment" type="submit" raised on-tap="pay(item)">Pay</paper-button>
+                        <paper-button id="payment" type="submit" raised on-tap="pay">Pay</paper-button>
                     </div>
                 </div>
             </template>
@@ -46,23 +46,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer({
             is: 'payment-view',
 
-            properties: {
-                item: Object
-            },
-
-            listeners:{
-                payment: 
-            },
-
             ready: function() {
                 this.events = eventsPaymentListArray;
             },
-            pay : function (item) {
-                console.log(item);
-                var databaseRef = database.ref("events/" + item.key);
-                item.sold = true;
-                //databaseRef.set(item);
-
+            pay : function (e) {
+                console.log(e.model.item);
+                var databaseRef = database.ref("events/" + e.model.item.key + "/sold");
+                databaseRef.set(true);
+                location.reload();
             }
         });
     </script>
