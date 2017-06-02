@@ -9,6 +9,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
+<link rel="import" href="../bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="earnings-view">
@@ -20,20 +31,107 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 padding: 10px;
             }
         </style>
-
-        <div class="card">
-            <div class="circle">5</div>
-            <h1>Earnings View</h1>
-            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-        </div>
+        <form is="iron-form">
+            <paper-dropdown-menu label="Month">
+                <paper-listbox id="selectedMonth" slot="dropdown-content" selected="0">
+                    <paper-item>January</paper-item>
+                    <paper-item>February</paper-item>
+                    <paper-item>March</paper-item>
+                    <paper-item>April</paper-item>
+                    <paper-item>May</paper-item>
+                    <paper-item>June</paper-item>
+                    <paper-item>July</paper-item>
+                    <paper-item>August</paper-item>
+                    <paper-item>September</paper-item>
+                    <paper-item>October</paper-item>
+                    <paper-item>November</paper-item>
+                    <paper-item>December</paper-item>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            <paper-button type="submit" raised class="indigo" on-tap="showEvents">SHOW</paper-button>
+        </form>
+        <template is="dom-repeat" items="{{doctorsMonth}}">
+            <div class="card">
+                <div id="info-doctor">
+                    <div>Doctor: <span>{{item.doctor}}</span></div>
+                    <div>Earned: <span>{{item.total}}</span></div>
+                </div>
+            </div>
+        </template>
     </template>
 
     <script>
-        class EarningsView extends Polymer.Element {
-            static get is() { return 'earnings-view'; }
-        }
+        var month;
+        var showEvent = false;
+        var showEventFiltered= false;
+        var eventsList;
+        var item;           //EventCalendar;
+        var eventData;      //EventCalendar
+        var list;
+        var events = new Object();
 
-        window.customElements.define(EarningsView.is, EarningsView);
+        exist = function(event){
+            for(var item in eventsList){
+                if(event.doctor === item.doctor){
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        Polymer({
+            is: 'earnings-view',
+
+            showEvents: function () {
+                month = this.$.selectedMonth.selected;
+                var eventsList=[];
+                var listMonth=[];
+                var showEvent = true;
+                var showEventFiltered = false;
+                list = listEventsPayment;
+                for (var key in list) {
+                    var dateAux = new Date(list[key].date);
+
+                    if(month == dateAux.getMonth() && list[key].sold == true){
+                        item = {
+                            date: list[key].date,
+                            startTime: list[key].startTime,
+                            endTime: list[key].endTime,
+                            doctor: list[key].doctor,
+                            price: list[key].price,
+                            patient: list[key].patient,
+                            sold:list[key].sold,
+                            key: key
+                        };
+                        listMonth.push(item);
+                    }
+                }
+
+                var cash = 0;
+                var doc;
+                for(item of listMonth){
+                    console.log(item);
+                    if(exist(item )==false){
+                        console.log(item);
+                        for(var itemAux in listMonth){
+                            if(item.doctor == itemAux.doctor){
+                                cash += Number(itemAux.price);
+                            }
+                            doc={
+                                doctor: item.doctor,
+                                total: cash
+                            }
+                        }
+                        if (exist(item)==false) {
+                            eventsList.push(doc);
+                        }
+                        cash = 0;
+                    }
+                }
+                this.doctorsMonth = eventsList;
+
+            }
+
+        })
     </script>
 </dom-module>
