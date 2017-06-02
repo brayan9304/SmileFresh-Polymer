@@ -33,9 +33,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <template is="dom-repeat" items="{{patients}}">
-      <div class="card">
+    <button id="button" on-tap="add">open modal</button>
 
+    <simple-modal id="modal" title="My modal" >
+      My modal's content
+    </simple-modal>
+
+    <template is="dom-repeat" items="{{patients}}">
+
+      <div class="card">
         <div id="info-patient">
           <div>Id: <span>{{item.id}}</span></div>
           <div>First name: <span>{{item.firstName}}</span></div>
@@ -53,12 +59,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </template>
   <script>
+      var modal = document.querySelector('#modal');
       Polymer({
           is: 'patients-view',
 
           ready: function() {
               this.patients = patientsArray;
+          },
 
+          add : function () {
+              modal.active = true;
           }
       });
   </script>
