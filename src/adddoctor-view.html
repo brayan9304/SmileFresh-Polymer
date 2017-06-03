@@ -23,7 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../bower_components/paper-multi-select/paper-multi-select.html">
+<link rel="import" href="../bower_components/jquery/dist/jquery.min.js">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="adddoctor-view">
@@ -80,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <div>
                 <div>
-                    <select multiple id="doctor-schedule" name="doctor_schedule">
+                    <select multiple id="doctor_schedule" name="doctor_schedule">
                         <option>Monday</option>
                         <option>Thuesday</option>
                         <option>Wednesday</option>
@@ -114,13 +114,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     if (this.$.firstName.value != "") {
                         if (this.$.lastName.value != "") {
                                 if (this.$.phone.value != 0) {
-                                    if (this.$.workingDays.value != "") {
+                                    if (this.$.doctor_schedule.value != "") {
                                         var eventOBJ = new Object();
                                         var date = new Date();
                                         eventOBJ.id = this.$.id.value;
                                         eventOBJ.firstName = this.$.firstName.value;
                                         eventOBJ.lastName = this.$.lastName.value;
                                         eventOBJ.phone = this.$.phone.value;
+                                        eventOBJ.phone = this.$.doctor_schedule.value;
                                         if (this.$.genre == 0) {
                                             eventOBJ.genre = "Male";
                                         }
